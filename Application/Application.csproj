@@ -9,12 +9,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Orders\Command\" />
-    <Folder Include="Orders\Query\" />
-    <Folder Include="Products\Command\" />
+    <Folder Include="Products\Command\CreateProductCommand\" />
+    <Folder Include="Products\Command\EditProductCommand\" />
+    <Folder Include="Products\Command\DeleteProductCommand\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="MediatR" Version="8.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.0" />

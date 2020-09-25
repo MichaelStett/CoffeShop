@@ -1,9 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using Application;
+using Application.Common.Mappings;
+
+using AutoMapper;
+
+using Infrastructure;
+using Infrastructure.Seed;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +35,17 @@ namespace Presentation
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
+            services.AddInfrastructure(Configuration);
+
+            #region AutoMapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            #endregion
 
             services.AddSwaggerGen(c =>
             {
@@ -39,7 +57,10 @@ namespace Presentation
                 });
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
             services.AddControllersWithViews();
         }
 
@@ -61,12 +82,15 @@ namespace Presentation
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            DbInitializer.Seed(app); 
 
             app.UseEndpoints(endpoints =>
             {
