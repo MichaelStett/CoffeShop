@@ -10,7 +10,6 @@ using Application.Common.Mappings;
 using AutoMapper;
 
 using Infrastructure;
-using Infrastructure.Seed;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -89,8 +88,6 @@ namespace Presentation
             app.UseRouting();
 
             app.UseAuthorization();
-
-            DbInitializer.Seed(app); 
 
             app.UseEndpoints(endpoints =>
             {

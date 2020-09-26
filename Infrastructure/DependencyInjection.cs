@@ -15,9 +15,12 @@ namespace Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<Context>(opt =>
-                opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            {
+                opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                opt.EnableSensitiveDataLogging();
+            });
 
-            services.AddScoped<IContext, Context>();
+        services.AddScoped<IContext, Context>();
         }
     }
 }

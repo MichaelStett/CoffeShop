@@ -31,7 +31,7 @@ namespace Application.Orders.Query.GetAllOrdersQuery
             {
                 var orders = _context.Orders.AsNoTracking();
 
-                var vm = orders.Select(order => _mapper.Map<OrdersVm>(order));
+                var vm = orders.Select(order => _mapper.Map<OrdersVm>(order)).ToList();
 
                 return vm;
             }

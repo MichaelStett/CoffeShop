@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,12 +19,15 @@ namespace Infrastructure
 
         public Context(DbContextOptions<Context> options)
             : base(options)
-        {
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-           // builder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
+            // builder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
+            builder.Entity<OrderDetail>()
+             .HasOne(o => o.Product)
+             .WithMany(p => p.OrderDetails)
+             .OnDelete(DeleteBehavior.Cascade);
         }
 
         public async Task<int> SaveChangesAsync()

@@ -8,8 +8,14 @@ namespace Domain.Entities
 {
     public class Order
     {
+        public Order()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+        }
+
         public int Id { get; set; }
-        public IEnumerable<OrderDetail> Details { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public DateTime OrderPlaced { get; set; }
         public OrderStatus Status { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace Application.Orders.Query.GetAllOrdersQuery
     public class OrdersVm : IMapFrom<Order>
     {
         public int Id { get; set; }
+        public DateTime OrderPlaced { get; set; }
         public OrderStatus Status { get; set; }
 
         public void Mapping(Profile profile)
@@ -21,7 +22,8 @@ namespace Application.Orders.Query.GetAllOrdersQuery
             profile.CreateMap<Order, OrdersVm>()
                 .ForMember(vm => vm.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(vm => vm.Status, opt => opt.MapFrom(s => s.Status))
-                .ForSourceMember(o => o.Details, opt => opt.DoNotValidate());
+                .ForMember(vm => vm.OrderPlaced, opt => opt.MapFrom(s => s.OrderPlaced))
+                .ForSourceMember(o => o.OrderDetails, opt => opt.DoNotValidate());
         }
     }
 }

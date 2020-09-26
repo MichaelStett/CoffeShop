@@ -1,4 +1,5 @@
-﻿using Application.Orders.Query.GetAllOrdersQuery;
+﻿using Application.Orders.Command.CreateOrderCommand;
+using Application.Orders.Query.GetAllOrdersQuery;
 using Application.Orders.Query.GetOrderDetailQuery;
 
 using AutoMapper;
@@ -17,6 +18,10 @@ namespace Application.Common.Mappings
         {
             CreateMap<Order, OrdersVm>();
             CreateMap<OrderDetail, OrderDetailDto>();
+
+            CreateMap<OrderDetailOtd, OrderDetail>()
+                .ForMember(d => d.Quantity, opt => opt.MapFrom(s => s.Quantity));
+                
         }
     }
 }

@@ -34,19 +34,17 @@ namespace Application.Orders.Query.GetOrderQuery
             {
                 // Disabling tracking for read-only!
                 var order = _context.Orders.AsNoTracking()
-                    .Include(order => order.Details)
+                    .Include(order => order.OrderDetails)
                     .First(order => order.Id == request.Id);
 
-                var dto = order.Details.Select(detail => _mapper.Map<OrderDetailDto>(detail))
-                    .Select(detail => { detail.ProductName = _context.Products.First(p => p.Id == detail.ProductId).Name; return detail; });
-
+                var dto = order.OrderDetails.Select(detail => _mapper.Map<OrderDetailDto>(detail));
 
                 var vm = new OrderDetailVm
                 {
                     OrderId = request.Id,
                     Status = order.Status,
                     Details = dto,
-                    TotalPrice = order.Details.Select(d => d.Price).Sum()
+                    TotalPrice = order.OrderDetails.Select(d => d.UnitPrice).Sum()
                 };
 
                 return vm;
