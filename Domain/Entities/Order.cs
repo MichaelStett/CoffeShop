@@ -16,6 +16,7 @@ namespace Domain.Entities
         public int Id { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
         public DateTime OrderPlaced { get; set; }
+        public DateTime? OrderCompleted { get; set; }
         public OrderStatus Status { get; set; }
     }
 }

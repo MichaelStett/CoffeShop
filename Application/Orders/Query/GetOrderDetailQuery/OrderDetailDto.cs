@@ -17,13 +17,16 @@ namespace Application.Orders.Query.GetOrderDetailQuery
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
+        public int UnitTimeToPrepare { get; set; }
+
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<OrderDetail, OrderDetailDto>()
                 .ForMember(vm => vm.ProductName, opt => opt.MapFrom(s => s.Product.Name))
                 .ForMember(vm => vm.Quantity, opt => opt.MapFrom(s => s.Quantity))
-                .ForMember(vm => vm.UnitPrice, opt => opt.MapFrom(s => s.UnitPrice));
+                .ForMember(vm => vm.UnitPrice, opt => opt.MapFrom(s => s.UnitPrice))
+                .ForMember(vm => vm.UnitTimeToPrepare, opt => opt.MapFrom(s => s.UnitTimeToPrepare));
         }
     }
 }

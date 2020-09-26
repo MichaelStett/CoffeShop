@@ -39,12 +39,14 @@ namespace Application.Orders.Command.CreateOrderCommand
                 foreach (var detail in details)
                 {
                     detail.UnitPrice = detail.Product.Price * detail.Quantity;
+                    detail.UnitTimeToPrepare = detail.Product.TimeToPrepare * detail.Quantity;
                 }
 
                 var order = new Order
                 {
                     Status = OrderStatus.NotStarted,
                     OrderPlaced = DateTime.UtcNow,
+                    OrderCompleted = null
                 }.AddOrderDetails(details);
                 
                 _context.Orders.Add(order);

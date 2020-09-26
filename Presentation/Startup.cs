@@ -10,6 +10,7 @@ using Application;
 using Application.Common.Mappings;
 
 using AutoMapper;
+using Newtonsoft.Json;
 
 using Infrastructure;
 
@@ -58,6 +59,7 @@ namespace Presentation
                     Description = "*description*",
                 });
 
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -65,10 +67,11 @@ namespace Presentation
                 c.IncludeXmlComments(xmlPath);
             });
             #endregion
-
+            
             services.AddControllers()
                 .AddJsonOptions(options =>
              options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+                
 
             services.AddControllersWithViews();
         }

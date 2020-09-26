@@ -42,6 +42,7 @@ namespace Application.Orders.Query.GetOrderQuery
                     { 
                         ProductName = _context.Products.First(p => p.Id == d.ProductId).Name,
                         UnitPrice = d.UnitPrice,
+                        UnitTimeToPrepare = d.UnitTimeToPrepare,
                         Quantity = d.Quantity
                     });
 
@@ -50,7 +51,8 @@ namespace Application.Orders.Query.GetOrderQuery
                     OrderId = request.Id,
                     Status = order.Status,
                     Details = dto,
-                    TotalPrice = order.OrderDetails.Select(d => d.UnitPrice).Sum()
+                    TotalPrice = order.OrderDetails.Select(d => d.UnitPrice).Sum(),
+                    TotalTimeToPrepare = order.OrderDetails.Select(d => d.UnitTimeToPrepare).Sum()
                 };
 
                 return vm;

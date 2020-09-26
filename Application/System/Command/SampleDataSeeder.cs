@@ -48,17 +48,17 @@ namespace Application.System.Command
                     return;
                 }
 
-                Products.Add(1, new Product { Name = "Cappuccino S", Price = 5.99m });
-                Products.Add(2, new Product { Name = "Cappuccino M", Price = 8.99m });
-                Products.Add(3, new Product { Name = "Cappuccino L", Price = 9.99m });
-                Products.Add(4, new Product { Name = "Espresso", Price = 4.99m });
-                Products.Add(5, new Product { Name = "Espresso Doppio", Price = 5.99m });
-                Products.Add(6, new Product { Name = "Americano S", Price = 4.99m });
-                Products.Add(7, new Product { Name = "Americano M", Price = 6.99m });
-                Products.Add(8, new Product { Name = "Americano L", Price = 8.99m });
-                Products.Add(9, new Product { Name = "Latte S", Price = 6.99m });
-                Products.Add(10, new Product { Name = "Latte M", Price = 8.59m });
-                Products.Add(11, new Product { Name = "Latte L", Price = 9.99m });
+                Products.Add(1, new Product { Name = "Cappuccino S", Price = 5.99m, TimeToPrepare = 3 });
+                Products.Add(2, new Product { Name = "Cappuccino M", Price = 8.99m, TimeToPrepare = 4 });
+                Products.Add(3, new Product { Name = "Cappuccino L", Price = 9.99m, TimeToPrepare = 4 });
+                Products.Add(4, new Product { Name = "Espresso", Price = 4.99m, TimeToPrepare = 2 });
+                Products.Add(5, new Product { Name = "Espresso Doppio", Price = 5.99m, TimeToPrepare = 4 });
+                Products.Add(6, new Product { Name = "Americano S", Price = 4.99m, TimeToPrepare = 2 });
+                Products.Add(7, new Product { Name = "Americano M", Price = 6.99m, TimeToPrepare = 3 });
+                Products.Add(8, new Product { Name = "Americano L", Price = 8.99m, TimeToPrepare = 4 });
+                Products.Add(9, new Product { Name = "Latte S", Price = 6.99m, TimeToPrepare = 4 });
+                Products.Add(10, new Product { Name = "Latte M", Price = 8.59m, TimeToPrepare = 4 });
+                Products.Add(11, new Product { Name = "Latte L", Price = 9.99m, TimeToPrepare = 5 });
 
                 foreach (var product in Products.Values)
                 {
@@ -75,6 +75,7 @@ namespace Application.System.Command
                     new Order
                     {
                         OrderPlaced = DateTime.UtcNow,
+                        OrderCompleted = DateTime.UtcNow.AddMinutes(7),
                         Status = OrderStatus.Completed
                     }.AddOrderDetails(
                         new OrderDetail { Product = Products[1], Quantity = 2, },
@@ -83,6 +84,7 @@ namespace Application.System.Command
                     new Order
                     {
                         OrderPlaced = DateTime.UtcNow,
+                        OrderCompleted = DateTime.UtcNow.AddMinutes(2),
                         Status = OrderStatus.Completed
                     }.AddOrderDetails(
                         new OrderDetail { Product = Products[3], Quantity = 1, }),
@@ -90,6 +92,7 @@ namespace Application.System.Command
                     new Order
                     {
                         OrderPlaced = DateTime.UtcNow,
+                        OrderCompleted = DateTime.UtcNow.AddMinutes(9),
                         Status = OrderStatus.Completed,
                     }.AddOrderDetails(
                         new OrderDetail { Product = Products[4], Quantity = 1, },
@@ -98,6 +101,7 @@ namespace Application.System.Command
                     new Order
                     {
                         OrderPlaced = DateTime.UtcNow,
+                        OrderCompleted = DateTime.UtcNow.AddMinutes(6),
                         Status = OrderStatus.Completed,
                     }.AddOrderDetails(
                         new OrderDetail { Product = Products[6], Quantity = 2, }),
@@ -105,6 +109,7 @@ namespace Application.System.Command
                     new Order
                     {
                         OrderPlaced = DateTime.UtcNow,
+                        OrderCompleted = DateTime.UtcNow.AddMinutes(5),
                         Status = OrderStatus.Completed,
                     }.AddOrderDetails(
                         new OrderDetail { Product = Products[7], Quantity = 3, }),
@@ -115,6 +120,7 @@ namespace Application.System.Command
                     foreach (var detail in order.OrderDetails)
                     {
                         detail.UnitPrice = detail.Product.Price * detail.Quantity;
+                        detail.UnitTimeToPrepare = detail.Product.TimeToPrepare * detail.Quantity;
                     }
                 }
 

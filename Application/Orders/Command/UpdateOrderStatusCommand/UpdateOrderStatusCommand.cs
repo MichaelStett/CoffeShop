@@ -37,6 +37,12 @@ namespace Application.Orders.Command.UpdateOrderStatusCommand
                 {
                     order.Status += 1;
 
+
+                    if (order.Status == OrderStatus.Completed)
+                    {
+                        order.OrderCompleted = DateTime.UtcNow;
+                    }
+
                     _context.Orders.Update(order);
                 }
 
