@@ -14,5 +14,6 @@ namespace Application.Orders.Command.CreateOrderCommand
     {
         public int ProductId { get; set; }
         public int Quantity { get; set; }
+        public string AdditionalInfo { get; set; }
     }
 }

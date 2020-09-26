@@ -33,7 +33,8 @@ namespace Application.Orders.Command.CreateOrderCommand
                 var details = request.Details.Select(o => new OrderDetail
                 {
                     Quantity = o.Quantity,
-                    Product = _context.Products.First(p => p.Id == o.ProductId)
+                    Product = _context.Products.First(p => p.Id == o.ProductId),
+                    AdditionalInfo = o.AdditionalInfo
                 }).ToList();
 
                 foreach (var detail in details)
@@ -46,7 +47,7 @@ namespace Application.Orders.Command.CreateOrderCommand
                 {
                     Status = OrderStatus.NotStarted,
                     OrderPlaced = DateTime.UtcNow,
-                    OrderCompleted = null
+                    OrderCompleted = null,
                 }.AddOrderDetails(details);
                 
                 _context.Orders.Add(order);
