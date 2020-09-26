@@ -15,9 +15,11 @@ namespace Presentation.Controllers
     public class ProductsController : BaseController
     {
         [HttpGet]
-        public async Task<List<Product>> GetAll()
+        public async Task<ActionResult<ProductsListVm>> GetAll()
         {
-            return await Mediator.Send(new GetAllProductsQuery());
+            var vm = await Mediator.Send(new GetAllProductsQuery());
+
+            return base.Ok(vm);
         }
     }
 }

@@ -17,9 +17,9 @@ using System.Threading.Tasks;
 
 namespace Application.Orders.Query.GetAllOrdersQuery
 {
-    public class GetAllOrdersQuery : IRequest<IEnumerable<OrdersVm>>
+    public class GetAllOrdersQuery : IRequest<OrdersListVm>
     {
-        public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, IEnumerable<OrdersVm>>
+        public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, OrdersListVm>
         {
             private readonly IContext _context;
             private readonly IMapper _mapper;
@@ -27,11 +27,16 @@ namespace Application.Orders.Query.GetAllOrdersQuery
             public GetAllOrdersQueryHandler(IContext context, IMapper mapper)
                 => (_context, _mapper) = (context, mapper);
 
-            public async Task<IEnumerable<OrdersVm>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
+            public async Task<OrdersListVm> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
             {
-                var orders = _context.Orders.AsNoTracking();
+                var orders = await _context.Orders.AsNoTracking()
+                    .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync(cancellationToken);
 
-                var vm = orders.Select(order => _mapper.Map<OrdersVm>(order)).ToList();
+                var vm = new OrdersListVm
+                {
+                    Orders = orders
+                };
 
                 return vm;
             }

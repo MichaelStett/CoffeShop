@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Application.Orders.Query.GetAllOrdersQuery
 {
-    public class OrdersVm : IMapFrom<Order>
+    public class OrderDto : IMapFrom<Order>
     {
         public int Id { get; set; }
         public DateTime OrderPlaced { get; set; }
@@ -19,7 +19,7 @@ namespace Application.Orders.Query.GetAllOrdersQuery
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Order, OrdersVm>()
+            profile.CreateMap<Order, OrderDto>()
                 .ForMember(vm => vm.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(vm => vm.Status, opt => opt.MapFrom(s => s.Status))
                 .ForMember(vm => vm.OrderPlaced, opt => opt.MapFrom(s => s.OrderPlaced))

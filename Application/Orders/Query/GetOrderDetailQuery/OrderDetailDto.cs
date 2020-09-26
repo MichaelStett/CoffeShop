@@ -21,7 +21,7 @@ namespace Application.Orders.Query.GetOrderDetailQuery
         public void Mapping(Profile profile)
         {
             profile.CreateMap<OrderDetail, OrderDetailDto>()
-                .ForMember(vm => vm.ProductName, opt => opt.MapFrom(s => s.Product.))
+                .ForMember(vm => vm.ProductName, opt => opt.MapFrom(s => s.Product.Name))
                 .ForMember(vm => vm.Quantity, opt => opt.MapFrom(s => s.Quantity))
                 .ForMember(vm => vm.UnitPrice, opt => opt.MapFrom(s => s.UnitPrice));
         }

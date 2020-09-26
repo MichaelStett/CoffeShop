@@ -12,21 +12,12 @@ using System.Text;
 
 namespace Application.Orders.Query.GetOrderDetailQuery
 {
-    public class OrderDetailVm : IMapFrom<Order>
+    public class OrderDetailVm
     {
         public int OrderId { get; set; }
         public decimal TotalPrice { get; set; }
 
         public OrderStatus Status { get; set; }
         public IEnumerable<OrderDetailDto> Details { get; set; }
-
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<Order, OrderDetailVm>()
-                .ForMember(vm => vm.OrderId, opt => opt.MapFrom(s => s.Id))
-                .ForMember(vm => vm.Details, opt => opt.MapFrom(s => s.OrderDetails))
-                .ForMember(vm => vm.Status, opt => opt.MapFrom(s => s.Status));
-        }
     }
 }

@@ -32,12 +32,18 @@ namespace Application.Orders.Query.GetOrderQuery
 
             public async Task<OrderDetailVm> Handle(GetOrderDetailQuery request, CancellationToken cancellationToken)
             {
-                // Disabling tracking for read-only!
                 var order = _context.Orders.AsNoTracking()
                     .Include(order => order.OrderDetails)
                     .First(order => order.Id == request.Id);
 
-                var dto = order.OrderDetails.Select(detail => _mapper.Map<OrderDetailDto>(detail));
+                // TODO: Use Mapper?
+                var dto = order.OrderDetails
+                    .Select(d => new OrderDetailDto 
+                    { 
+                        ProductName = _context.Products.First(p => p.Id == d.ProductId).Name,
+                        UnitPrice = d.UnitPrice,
+                        Quantity = d.Quantity
+                    });
 
                 var vm = new OrderDetailVm
                 {

@@ -1,6 +1,7 @@
 ﻿using Application.Orders.Command.CreateOrderCommand;
 using Application.Orders.Query.GetAllOrdersQuery;
 using Application.Orders.Query.GetOrderDetailQuery;
+using Application.Products.Query.GetAllProductsQuery;
 
 using AutoMapper;
 
@@ -16,12 +17,11 @@ namespace Application.Common.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<Order, OrdersVm>();
+            CreateMap<Order, OrderDto>();
             CreateMap<OrderDetail, OrderDetailDto>();
+            CreateMap<OrderDetailOtd, OrderDetail>();
 
-            CreateMap<OrderDetailOtd, OrderDetail>()
-                .ForMember(d => d.Quantity, opt => opt.MapFrom(s => s.Quantity));
-                
+            CreateMap<Product, ProductDto>();
         }
     }
 }

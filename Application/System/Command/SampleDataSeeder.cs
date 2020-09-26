@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Enums;
+using Domain.Extensions;
 using Domain.Interfaces;
 
 using MediatR;
@@ -124,16 +125,5 @@ namespace Application.System.Command
         }
     }
 
-    internal static class OrderExtensions
-    {
-        public static Order AddOrderDetails(this Order order, params OrderDetail[] orderDetails)
-        {
-            foreach (var orderDetail in orderDetails)
-            {
-                order.OrderDetails.Add(orderDetail);
-            }
-
-            return order;
-        }
-    }
+    
 }
