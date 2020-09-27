@@ -33,9 +33,9 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<Unit> Create([FromBody] IEnumerable<OrderDetailOtd> details)
+        public async Task<Unit> Create([FromBody] CreateOrderCommand command)
         {
-            return await Mediator.Send(new CreateOrderCommand() { Details = details });
+            return await Mediator.Send(command);
         }
 
         /// <summary>
