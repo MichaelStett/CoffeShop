@@ -27,6 +27,9 @@ namespace Application.Orders.Query.GetOrderQuery
             public readonly IContext _context;
             public readonly IMapper _mapper;
 
+            private const int TIP_PERCENTAGE = 10;
+            private const int TIP_THRESHOLD = 5;
+
             public GetOrderDetailQueryHandler(IContext context, IMapper mapper)
                 => (_context, _mapper) = (context, mapper);
 
@@ -52,8 +55,17 @@ namespace Application.Orders.Query.GetOrderQuery
                     Status = order.Status,
                     Details = dto,
                     TotalPrice = order.OrderDetails.Select(d => d.UnitPrice).Sum(),
-                    TotalTimeToPrepare = order.OrderDetails.Select(d => d.UnitTimeToPrepare).Sum()
+                    TotalTimeToPrepare = order.OrderDetails.Select(d => d.UnitTimeToPrepare).Sum(),
+                    TipPercentage = 0,
                 };
+
+                var quantity = dto.Select(o => o.Quantity).Sum();
+
+                if (quantity > TIP_THRESHOLD)
+                {
+                    vm.TipPercentage = TIP_PERCENTAGE;
+                    vm.TotalPrice = vm.TotalPrice * (1 + (vm.TipPercentage / 100m));
+                }
 
                 return vm;
             }

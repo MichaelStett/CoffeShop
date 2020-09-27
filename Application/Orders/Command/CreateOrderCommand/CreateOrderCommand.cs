@@ -16,11 +16,11 @@ using System.Threading.Tasks;
 
 namespace Application.Orders.Command.CreateOrderCommand
 {
-    public class CreateOrderCommand : IRequest
+    public class CreateOrderCommand : IRequest<int>
     {
         public IEnumerable<OrderDetailOtd> Details { get; set; }
 
-        public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand>
+        public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, int>
         {
             public readonly IContext _context;
             public readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace Application.Orders.Command.CreateOrderCommand
             public CreateOrderCommandHandler(IContext context, IMapper mapper)
                 => (_context, _mapper) = (context, mapper);
 
-            public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
             {
                 var details = request.Details.Select(o => new OrderDetail
                 {
@@ -50,11 +50,11 @@ namespace Application.Orders.Command.CreateOrderCommand
                     OrderCompleted = null,
                 }.AddOrderDetails(details);
                 
-                _context.Orders.Add(order);
+                var entry = _context.Orders.Add(order);
 
                 await _context.SaveChangesAsync();
 
-                return Unit.Value;
+                return entry.Entity.Id;
             }
         }
     }

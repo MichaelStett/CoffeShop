@@ -33,7 +33,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<Unit> Create([FromBody] CreateOrderCommand command)
+        public async Task<int> Create([FromBody] CreateOrderCommand command)
         {
             return await Mediator.Send(command);
         }
